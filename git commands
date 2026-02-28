@@ -1,0 +1,137 @@
+Git Commands with Purpose (Basic → Pro Level)
+✅ 1️⃣ Basic Git Setup
+Command	Purpose
+git --version	Check installed Git version
+git config --global user.name "Name"	Set username
+git config --global user.email "email"	Set email
+git config --list	Show Git configuration
+git help <command>	Get help for any command
+✅ 2️⃣ Repository Creation
+Command	Purpose
+git init	Initialize new Git repository
+git clone <repo-url>	Copy remote repo to local
+git clone -b branch <url>	Clone specific branch
+
+Used heavily with GitHub.
+
+✅ 3️⃣ File Tracking & Staging
+Command	Purpose
+git status	Check current changes
+git add <file>	Add single file
+git add .	Add all files
+git add -A	Add all including deleted
+git reset <file>	Unstage file
+✅ 4️⃣ Commit Operations
+Command	Purpose
+git commit -m "message"	Commit staged changes
+git commit -am "msg"	Add + commit tracked files
+git commit --amend	Modify last commit
+✅ 5️⃣ Branching (Very Important in DevOps)
+Command	Purpose
+git branch	List branches
+git branch <name>	Create branch
+git checkout <branch>	Switch branch
+git checkout -b <name>	Create + switch
+git switch <branch>	Modern branch switch
+git switch -c <name>	Create + switch
+git branch -d <branch>	Delete branch
+✅ 6️⃣ Merging & Rebase
+Command	Purpose
+git merge <branch>	Merge branch
+git rebase <branch>	Reapply commits
+git rebase -i	Interactive rebase
+git merge --abort	Cancel merge
+✅ 7️⃣ Remote Repository
+Command	Purpose
+git remote -v	Show remote
+git remote add origin <url>	Add remote
+git remote remove origin	Remove remote
+git fetch	Download changes
+git pull	Fetch + merge
+git push	Push changes
+git push -u origin main	First push
+git push origin branch	Push branch
+✅ 8️⃣ Undo Changes (Interview Favorite)
+Command	Purpose
+git restore <file>	Restore file
+git checkout -- <file>	Old restore method
+git reset --soft HEAD~1	Undo commit, keep changes
+git reset --hard HEAD~1	Remove commit
+git revert <commit>	Reverse commit safely
+✅ 9️⃣ Logs & History
+Command	Purpose
+git log	View commit history
+git log --oneline	Short logs
+git log --graph	Visual log
+git show <commit>	Show commit
+git blame <file>	Who changed file
+✅ 🔟 Stashing (Real-time production work)
+Command	Purpose
+git stash	Save temporary changes
+git stash list	View stash
+git stash pop	Restore stash
+git stash apply	Apply stash
+✅ 1️⃣1️⃣ Tags (Release management)
+Command	Purpose
+git tag	List tags
+git tag v1.0	Create tag
+git push origin v1.0	Push tag
+
+Used in CI/CD pipelines.
+
+✅ 1️⃣2️⃣ Advanced (Pro Level DevOps)
+Command	Purpose
+git cherry-pick <commit>	Copy commit
+git reflog	Recover lost commits
+git diff	Show changes
+git diff --staged	Staged changes
+git clean -fd	Remove untracked
+git bisect	Find bug commit
+git worktree	Multiple working dirs
+
+
+Upload a Folder to GitHub (CLI)
+✅ Case 1: Folder already inside your Git project
+
+👉 Copy and paste these:
+
+cd path/to/your/repo
+
+git add folder-name/
+
+git commit -m "Added folder-name"
+
+git push
+
+If this is your first push:
+
+git push -u origin main
+✅ Case 2: Folder is NOT a Git repo yet (most common)
+
+👉 Go inside your folder and push:
+
+cd folder-name
+
+git init
+
+git remote add origin https://github.com/your-username/repo-name.git
+
+git add .
+
+git commit -m "Initial commit"
+
+git branch -M main
+
+git push -u origin main
+✅ Quick check before pushing (recommended)
+git status
+
+git remote -v
+⚠️ If folder is empty (Git will ignore it)
+
+Create a dummy file:
+
+touch .gitkeep
+
+Then push again.
+
