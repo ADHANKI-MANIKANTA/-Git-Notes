@@ -1,0 +1,392 @@
+Git Interview Questions (Copy-Paste Answers)
+
+1. What is Git and why do we use it?
+Git is a distributed version control system used to track changes in code. It allows multiple developers to collaborate, maintain code history, manage versions, and revert to previous states when needed.
+
+2. What is the difference between Git and GitHub?
+Git is a version control tool installed locally. GitHub is a cloud-based platform that hosts Git repositories and enables collaboration, code reviews, and CI/CD integration.
+
+3. Explain the Git workflow from developer to production.
+Developer creates a feature branch → makes changes → commits locally → pushes to remote → creates Pull Request → code review → merge into main branch → CI/CD pipeline builds, tests, and deploys to staging → after validation, deploy to production.
+
+4. What is the difference between git pull and git fetch?
+git fetch downloads changes from remote but does not merge.
+git pull = fetch + merge. It downloads and merges changes automatically.
+
+5. What is the difference between git merge and git rebase? Which one do companies prefer and why?
+Merge creates a merge commit and preserves history.
+Rebase rewrites history and creates a linear timeline.
+Companies prefer rebase for clean history but use merge for shared branches to avoid rewriting history.
+
+6. What is a Git conflict? How do you resolve it?
+A conflict occurs when multiple changes are made to the same file.
+Steps:
+- Identify conflicted files
+- Edit and resolve manually
+- git add file
+- git commit
+
+7. You committed a file by mistake. How do you undo the commit?
+If not pushed:
+git reset --soft HEAD~1
+If pushed:
+git revert <commit-id>
+
+8. What is the difference between git reset and git revert?
+Reset removes commits from history.
+Revert creates a new commit that undoes previous changes. Revert is safer in shared environments.
+
+9. What is Git stash? When do you use it in real time?
+Git stash temporarily saves uncommitted changes.
+Used when switching branches during urgent fixes.
+
+10. How do you recover a deleted branch?
+git reflog
+git checkout -b branch-name <commit-id>
+
+11. What is cherry-pick? Give a real-time scenario.
+Cherry-pick applies a specific commit to another branch.
+Used to move a hotfix from dev to production without merging full code.
+
+12. Production issue happened due to a recent commit. How will you find which commit caused the issue?
+Use git log, git diff, and git bisect to identify the faulty commit.
+
+13. Explain Git branching strategy used in companies.
+Common strategies:
+- Git Flow (feature, dev, release, hotfix)
+- Trunk-based development
+- Environment-based branches (dev, test, prod)
+
+14. What is GitOps? How Git is used in CI/CD pipelines?
+GitOps uses Git as the single source of truth. Infrastructure and deployment configs are stored in Git. CI/CD tools monitor changes and automatically deploy.
+
+--------------------------------------------------
+
+Scenario-Based Git Interview
+
+1. A developer pushed wrong config to production. Immediate action?
+Revert the commit immediately:
+git revert <commit-id>
+Trigger deployment and restore service.
+
+2. 3 AM deployment broke the application. Rollback?
+Rollback using previous stable tag or commit:
+git checkout previous-version
+Redeploy.
+
+3. Merge failing due to same file changes?
+Pull latest code, resolve conflicts manually, test, then merge.
+
+4. Hotfix required but release branch frozen?
+Create hotfix branch from production, fix, test, deploy, then merge back.
+
+5. Sensitive file pushed?
+Immediately remove from history:
+git filter-repo or BFG tool.
+Rotate credentials.
+
+6. Main branch broken?
+Revert last merge or rollback to last stable version.
+
+7. CI/CD pipeline fails after merge?
+Check logs, verify build, test locally, validate environment configs.
+
+--------------------------------------------------
+
+Real-Time Production Troubleshooting
+
+1. Verify deployed version?
+Check commit ID in deployment logs or container image tag.
+
+2. Check current commit in production?
+git rev-parse HEAD or check build metadata.
+
+3. Restore deleted file?
+git checkout <commit-id> -- file-name
+
+4. Changes not reflecting?
+Check:
+- Branch deployed
+- Pipeline status
+- Cache/CDN
+- Environment config
+
+5. Handle conflicts under pressure?
+Create backup branch, resolve carefully, test, then deploy.
+
+6. Sync staging and production?
+Merge staging into production after validation.
+
+7. Git authentication failure in pipeline?
+Check tokens, SSH keys, access permissions, expiry.
+
+--------------------------------------------------
+
+Advanced Git Questions
+
+1. Distributed vs centralized?
+Distributed: full repo in every system.
+Centralized: single central server.
+
+2. How Git ensures data integrity?
+Uses SHA hash for every object.
+
+3. Internal working?
+Blob = file
+Tree = directory
+Commit = snapshot
+Hash = unique identifier.
+
+4. Shallow clone?
+Clone limited history:
+git clone --depth=1
+Used in CI/CD to save time.
+
+5. Managing huge repos?
+Use monorepo tools, partial clone, caching.
+
+6. Monorepo vs multi-repo?
+Monorepo = all services in one.
+Multi-repo = separate repos.
+
+7. Binary files?
+Use Git LFS.
+
+8. Git submodule?
+Embed one repo inside another.
+
+9. Git in microservices?
+Each service has repo or monorepo with isolated builds.
+
+10. Securing repos?
+Access control, encryption, audit, secrets scanning.
+
+--------------------------------------------------
+
+Hands-On Practice Tasks
+
+Task 1:
+git init
+git checkout -b dev
+git checkout -b test
+git checkout -b prod
+Merge step by step.
+
+Task 2:
+Edit same file in two branches and merge to create conflict.
+
+Task 3:
+Push wrong code.
+git revert <commit>
+
+Task 4:
+git stash
+git checkout branch
+git stash pop
+
+Task 5:
+Delete branch.
+git reflog
+git checkout -b branch <commit>
+
+Task 6:
+git cherry-pick <commit-id>
+
+Task 7:
+git bisect start
+git bisect bad
+git bisect good <commit>
+
+Task 8:
+git tag v1.0
+Simulate release.
+
+Task 9:
+Rollback using tag or commit.
+
+Task 10:
+Integrate with Jenkins:
+Connect Git repo → webhook → pipeline → build → deploy.
+
+
+Top 50 Real DevOps Git Interview Scenarios (3+ Years Experience)
+
+1. A developer accidentally deleted important code in a commit. What will you do?
+Find the previous commit using:
+git log
+Restore the file:
+git checkout <commit-id> -- file
+
+2. Production deployment failed after merging a PR. How do you troubleshoot?
+Check:
+- Recent commits
+- CI/CD logs
+- Environment configs
+- Rollback if needed.
+
+3. Developer says “my branch is up to date” but PR shows conflicts. Why?
+Because remote branch has new commits. Ask developer to:
+git fetch
+git rebase origin/main
+
+4. A deployment pipeline is stuck during Git checkout. What checks will you perform?
+Check:
+- Git server availability
+- Credentials
+- Network connectivity
+- Repository permissions.
+
+5. How do you handle large binary files in production repos?
+Use Git LFS to store binaries outside Git history.
+
+6. Multiple teams are working in the same repo. How do you avoid conflicts?
+Use:
+- Feature branches
+- Frequent rebasing
+- Smaller PRs.
+
+7. A commit broke production. How do you identify root cause?
+Use:
+git log
+git diff
+git bisect.
+
+8. Your Git server is slow. What optimization steps will you take?
+Use:
+- Shallow clone
+- Cache repositories
+- Clean old branches.
+
+9. Developers committed sensitive data. Immediate action?
+Remove history, rotate credentials, restrict access.
+
+10. How do you enforce code quality before merge?
+Use:
+- Pre-commit hooks
+- CI validation
+- Code reviews.
+
+11. How do you handle release versioning in Git?
+Use semantic versioning and Git tags.
+
+12. A branch is behind production by many commits. What to do?
+Rebase or merge production into branch.
+
+13. CI/CD builds wrong branch. How to fix?
+Verify pipeline branch configuration.
+
+14. Git repository size is too large. How to reduce?
+Remove unused history and large files.
+
+15. Developers force push to main. How to prevent?
+Enable branch protection rules.
+
+16. How do you ensure only tested code reaches production?
+Use:
+- Staging environment
+- Approval gates.
+
+17. A developer merged untested code. What will you do?
+Rollback and implement mandatory reviews.
+
+18. Pipeline triggered multiple times unnecessarily. Why?
+Check webhook duplication or triggers.
+
+19. How do you secure Git in financial systems?
+Use:
+- MFA
+- Access control
+- Audit logs.
+
+20. How do you manage environment-specific configs?
+Use separate config repos or GitOps.
+
+21. A hotfix must go live in minutes. Steps?
+Create hotfix branch, fix, test, deploy, merge back.
+
+22. Developers working on same feature. How to manage?
+Use shared feature branch or trunk-based development.
+
+23. Git clone fails in pipeline. Why?
+Credential or network issue.
+
+24. How do you rollback microservice deployment?
+Checkout previous tag and redeploy.
+
+25. A tag points to wrong commit. How to fix?
+Delete and recreate the tag.
+
+26. How do you automate Git workflows?
+Use CI/CD pipelines.
+
+27. A merge created bugs. Why?
+Missing test coverage.
+
+28. How do you monitor Git operations?
+Use logs and observability tools.
+
+29. Developers not following branching rules. Solution?
+Define policies and automate.
+
+30. How do you manage multiple releases?
+Use release branches.
+
+31. Git history rewritten accidentally. How to recover?
+Use reflog.
+
+32. A branch was deleted from remote. Recover?
+Restore from local or reflog.
+
+33. Production uses wrong config. Why?
+Wrong branch or merge.
+
+34. How do you implement GitOps?
+Use Git as single source and auto deploy.
+
+35. A service rollback failed. Why?
+Database or config mismatch.
+
+36. How do you ensure traceability?
+Use commit messages and tagging.
+
+37. Developers push directly to production branch. How to stop?
+Restrict access.
+
+38. How do you audit Git usage?
+Use logs and review history.
+
+39. Multiple environments with same repo. How to manage?
+Use environment branches.
+
+40. A bug exists only in production. How to debug?
+Compare commits between staging and production.
+
+41. How do you sync forks?
+Pull upstream changes.
+
+42. Developers use outdated branches. How to fix?
+Enforce regular rebasing.
+
+43. A merge introduced performance issue. What next?
+Analyze diff and rollback.
+
+44. How do you manage Git in Kubernetes deployments?
+Use GitOps tools.
+
+45. A CI pipeline triggered but deployment not happening. Why?
+Check pipeline stages.
+
+46. How do you manage secrets in Git?
+Use secret managers.
+
+47. A build works locally but fails in CI. Why?
+Environment mismatch.
+
+48. Git webhook not triggering. Why?
+Check URL and firewall.
+
+49. How do you improve Git collaboration?
+Use reviews and automation.
+
+50. What is the biggest Git mistake in production?
+Force push and pushing secrets.
