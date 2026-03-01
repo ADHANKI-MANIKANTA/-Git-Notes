@@ -81,3 +81,22 @@ When we **rebase** branches, however, we're actually copying the commits from on
 Use **git stash** when you want to record the current state of the working directory and the index, but want to go back to a clean working directory.
 
 In Git, the "**reflog**" (reference log) is a mechanism that helps you keep track of changes to the tips of branches and other references in your Git repository. It serves as a safety net and is especially useful when you need to recover lost commits or branches.
+
+git commands 
+
+git branch - to check the branches and to check we are in which branch
+git branch -b leopolo - to create new branch after coloning any branch from master branch.
+git checkout -b leopolo- this command also we use to create branch after creating we can directly checkout the same branch.
+git status - to check any commits are in pending 
+git add.- to add all the changes local repository 
+git add filename - to add single file changes 
+git status - after adding to see which changes are ready for commit 
+git checkout-
+
+git commit -m "testign" - to commit changes to repository 
+git log - to check the commit history and logs 
+git log --oneline - to check log in oneline
+git log --oneline --graph - to check log in graph format in Realtime project.
+git push --set-upstream origin leopolo - to push the changes to remot repository, the one which we created the branch 
+
+after pushing the code to remote repository, you can verify the changes in the remote repository using `git log` or by checking the repository on GitHub/GitLab/etc.
